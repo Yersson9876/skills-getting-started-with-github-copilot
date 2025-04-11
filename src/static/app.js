@@ -14,25 +14,27 @@ document.addEventListener("DOMContentLoaded", () => {
       activitiesList.innerHTML = "";
 
       // Populate activities list
-      Object.entries(activities).forEach(([name, details]) => {
-        const activityCard = document.createElement("div");
-        activityCard.className = "activity-card";
+      Object.keys(activities).forEach(activityName => {
+        const activity = activities[activityName];
+        const card = document.createElement('div');
+        card.className = 'activity-card';
 
-        const spotsLeft = details.max_participants - details.participants.length;
-
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+        card.innerHTML = `
+          <h4>${activityName}</h4>
+          <p>${activity.description}</p>
+          <p><strong>Schedule:</strong> ${activity.schedule}</p>
+          <p><strong>Participants:</strong></p>
+          <ul class="participants-list">
+            ${activity.participants.map(participant => `<li>${participant}</li>`).join('')}
+          </ul>
         `;
 
-        activitiesList.appendChild(activityCard);
+        activitiesList.appendChild(card);
 
         // Add option to select dropdown
         const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
+        option.value = activityName;
+        option.textContent = activityName;
         activitySelect.appendChild(option);
       });
     } catch (error) {
